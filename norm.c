@@ -6,7 +6,7 @@
 /*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:14:11 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/12 19:40:58 by aaizza           ###   ########.fr       */
+/*   Updated: 2022/06/12 21:36:02 by aaizza           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**norm1(char **args)
 	char	*str;
 	char	**tmp;
 
-	tmp = malloc(sizeof(char *) * (table_len(args) + 2));
+	tmp = malloc(sizeof(char *) * (table_len(g_data.env) + 1));
 	i = 1;
 	x = 0;
 	while (args[i])
