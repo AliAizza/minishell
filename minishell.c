@@ -6,7 +6,7 @@
 /*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 19:57:09 by aaizza           ###   ########.fr       */
+/*   Updated: 2022/06/18 22:25:40 by aaizza           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 void	handle_cntr_c(void)
 {
 	g_data.exit_code = 1;
-	if (g_data.heredoc_signal)
+	if (g_data.heredoc_signal == 1)
 	{
+		g_data.close_heredoc = 1;
 		printf("\n");
 		close(0);
 	}
@@ -40,8 +41,16 @@ void	handle_signal(int sig)
 		handle_cntr_c();
 	else if (sig == SIGQUIT)
 	{
-		rl_on_new_line();
-		rl_redisplay();
+		if (g_data.child_signal)
+		{
+			printf("\n");
+			rl_redisplay();
+		}
+		else
+		{
+			rl_on_new_line();
+			rl_redisplay();
+		}
 	}
 }
 
@@ -51,7 +60,10 @@ void	minishell(char *str)
 	{
 		str = readline("\033[0;32mminishell:$ \x1B[0m");
 		if (!str)
+		{
+			printf("exit\n");
 			exit(0);
+		}
 		if (str[0])
 		{
 			add_history(str);

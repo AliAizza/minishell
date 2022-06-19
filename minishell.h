@@ -6,7 +6,7 @@
 /*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 19:35:33 by aaizza           ###   ########.fr       */
+/*   Updated: 2022/06/18 23:56:05 by aaizza           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,9 @@ typedef struct s_cmd {
 	char	*path;
 	char	*output;
 	char	*input;
-	char	*inputs_str;
-	char	**inputs;
 	char	**args;
 	int		heredoc;
+	int		append;
 	int		doc[2];
 	int		pipe;
 	int		and;
@@ -95,11 +94,11 @@ typedef struct s_data {
 	t_cmd	*cmds;
 	int		index;
 	char	*limit;
-	int		append;
 	int		err;
 	int		exit_code;
 	int		heredoc_signal;
 	int		child_signal;
+	int		close_heredoc;
 	int		fd;
 	int		cntr_c;
 	char	*pwd;
@@ -154,6 +153,7 @@ char	*join_and_free(char *s1, char *s2);
 void	free_if_exists(char *str);
 void	open_file(char *path);
 void	ft_print_error(char *s1, char *s2, char *s3);
+void	help_export(int i, int j, int x);
 
 // executer
 void	execute(void);
@@ -174,6 +174,7 @@ int		ft_check_alnum2(char *str);
 void	exec_cmd(int i);
 char	**norm1(char **args);
 char	**norm2(char **args, char **tmp);
+void	check_input_files(void);
 
 // build in commands
 void	echo_cmd(char **args);
@@ -183,6 +184,7 @@ void	export_cmd(char **args);
 void	env_cmd(char **args);
 void	exit_cmd(char **args);
 void	unset_cmd(char **args, int q);
+int		look_for_env_index(char **env, char *start);
 
 // bonus functions
 int		handle_and_and_or(int process_index);

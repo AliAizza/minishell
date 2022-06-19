@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 10:25:17 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/14 21:40:18 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_token	parser_expect(t_lexer *lexer, int t_tokenype)
 	t_token	new_token;
 
 	new_token = lexer_get_next_token(lexer);
-	if (new_token.e_type == t_tokenype)
+	if ((int)new_token.e_type == t_tokenype)
 		return (new_token);
 	else
 		parser_error(new_token.value, new_token.e_type);
@@ -33,8 +33,8 @@ void	parser_parse(t_token *token, t_lexer *lexer)
 		parser_handle_word(token);
 	else if (token->e_type == TOKEN_LESS_THAN)
 	{
-		g_data.cmds[g_data.index].inputs_str = join_with_sep(
-				g_data.cmds[g_data.index].inputs_str,
+		g_data.cmds[g_data.index].input = join_with_sep(
+				g_data.cmds[g_data.index].input,
 				parser_expect(lexer, TOKEN_WORD).value, -1);
 		g_data.cmds[g_data.index].heredoc = 0;
 	}
@@ -52,10 +52,10 @@ void	init_data(char *str)
 
 	g_data.num_of_cmds = get_num_of_cmds(str);
 	g_data.index = 0;
-	g_data.append = 0;
 	g_data.err = 0;
 	g_data.heredoc_signal = 0;
 	g_data.child_signal = 0;
+	g_data.close_heredoc = 0;
 	g_data.cntr_c = 0;
 	g_data.cmds = malloc(g_data.num_of_cmds * sizeof(t_cmd));
 	i = -1;
